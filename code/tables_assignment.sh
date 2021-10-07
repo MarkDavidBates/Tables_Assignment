@@ -104,6 +104,10 @@ chooseArithmetic(){
 learnTables(){
 	chooseNumber
 	chooseArithmetic
+	for((i=0; i<NUM_QUESTIONS; i++))
+	do
+	
+	done
 }
 
 takeQuiz(){
