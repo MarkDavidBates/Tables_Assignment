@@ -114,7 +114,6 @@ takeQuiz(){
 	for((i=0; i<NUM_QUESTIONS; i++))
 	do
 		R=$(($RANDOM%Y+X))
-		echo "$R"
 
 		case $R in
 			1)
@@ -128,8 +127,18 @@ takeQuiz(){
 				;;
 			2)
 				echo "2) Subtraction"
-				#R2=
-				#echo "$R2"
+				R2=$(($RANDOM%13))
+                		echo "what is $R2 - $NUMBER"
+                		read USER_ANS
+                		CORRECT_ANS=$(($R2-$NUMBER))
+                		OPERAND1=$R2
+                		OPERAND2=$NUMBER
+                		if [ $USER_ANS -eq $CORRECT_ANS ]
+                		then
+                    			CORRECT=1
+                		else
+                    			CORRECT=2
+                		fi
 				;;
 			3)
 				echo "3) Multiplication"
@@ -148,7 +157,18 @@ takeQuiz(){
 				;;
 			4)
 				echo "4) Division"
-				#R2=$(($RANDOM%()))
+                		R2=$(($RANDOM%13))
+                		echo "what is $R2 / $NUMBER"
+                		read USER_ANS
+                		CORRECT_ANS=$(($R2/$NUMBER))
+                		OPERAND1=$R2
+                		OPERAND2=$NUMBER
+                		if [ $USER_ANS -eq $CORRECT_ANS ]
+                		then
+                    			CORRECT=1
+                		else
+                    			CORRECT=2
+                		fi
 				;;
 			*)
 				echo "number must be one of the following above"
@@ -158,7 +178,7 @@ takeQuiz(){
 		#STORE_RESULTS
 	done
 
-	writeToFile
+	#writeToFile
 }
 
 writeToFile(){
