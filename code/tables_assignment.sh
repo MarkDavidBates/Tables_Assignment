@@ -133,8 +133,18 @@ takeQuiz(){
 				;;
 			3)
 				echo "3) Multiplication"
-				R2=$(($RANDOM%12))
-				echo "$R2"
+				R2=$(($RANDOM%13))
+                		echo "what is $R2 x $NUMBER?"
+				read USER_ANS
+				CORRECT_ANS=$(($R2*$NUMBER))
+				OPERAND2=$NUMBER
+				OPERAND1=$R2
+				if [ $USER_ANS -eq $CORRECT_ANS ]
+				then
+					CORRECT=1
+				else
+					CORRECT=0
+				fi
 				;;
 			4)
 				echo "4) Division"
