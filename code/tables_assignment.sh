@@ -21,6 +21,27 @@ do
 	done
 done
 
+login(){
+    read -p "enter Username " UNAME
+    read -p "Enter Password " PWORD
+    while read LINE
+    do
+        USERLINE="$LINE"
+    done < <(grep $UNAME login.txt | grep $PWORD) #process subsitution for logging in, trying to find a matching username and password
+
+    USERDETAILS=($USERLINE) #explode USERLINE details into USERDETAILS array
+    if [ ${#USERDETAILS[@]} -eq 0 ]
+    then
+        echo "Error: Username or Password not recognised"
+    else
+        FNAME=${USERDETAILS[0]}
+        USER=${USERDETAILS[1]}
+        PASS=${USERDETAILS[2]}
+        LEVEL=${USERDETAILS[3]}
+        AGE_GROUP=${USERDETAILS[4]}
+        #echo "($USERDETAILS[@])"
+    fi
+}
 
 makeChoice(){
 
@@ -98,15 +119,6 @@ chooseArithmetic(){
 		then
 			echo "number must be between 1 and 4"
 		fi
-	done
-}
-
-learnTables(){
-	chooseNumber
-	chooseArithmetic
-	for((i=0; i<NUM_QUESTIONS; i++))
-	do
-	
 	done
 }
 
