@@ -21,6 +21,50 @@ do
 	done
 done
 
+login(){
+until [ ${#USERDETAILS[@]} -ne 0 ]
+    do
+        until [[ $UNAME =~ ^[A-Za-z]+$ ]]
+        do
+            read -p "Enter Username: " UNAME
+            if [[ $UNAME =~ ^[A-Za-z]+$ ]]
+            then
+                echo "$UNAME"
+            else
+                echo "name has illegal characters"
+            fi
+        done
+
+        until [[ $PWORD =~ ^[0-9]+$ ]]
+        do
+            read -p "Enter Password: " PWORD
+            if [[ $PWORD =~ ^[0-9]+$ ]]
+            then
+                echo "$PWORD"
+            else
+                echo "password has illegal characters"
+            fi
+        done
+
+        while read LINE
+        do
+            USERLINE="$LINE"
+        done < <(grep $UNAME login.txt | grep $PWORD) #process subsitution for logging in, trying to find a matching username and password
+
+        USERDETAILS=($USERLINE) #explode USERLINE details into USERDETAILS array
+        if [ ${#USERDETAILS[@]} -eq 0 ]
+        then
+            echo "Error: Username or Password not recognised"
+        else
+            FNAME=${USERDETAILS[0]}
+            USER=${USERDETAILS[1]}
+            PASS=${USERDETAILS[2]}
+            LEVEL=${USERDETAILS[3]}
+            AGE_GROUP=${USERDETAILS[4]}
+            #echo ${USERDETAILS[@]}
+        fi
+    done
+}
 
 makeChoice(){
 
@@ -101,11 +145,6 @@ chooseArithmetic(){
 	done
 }
 
-learnTables(){
-	chooseNumber
-	chooseArithmetic
-}
-
 takeQuiz(){
 	#clear
 	echo "Take Tables Quiz"
@@ -124,6 +163,12 @@ takeQuiz(){
 				CORRECT_ANS=$(($NUMBER+$R2))
 				OPERAND1=$NUMBER
 				OPERAND2=$R2
+				if [ $USER_ANS -eq $CORRECT_ANS ]
+                		then
+                    			CORRECT=1
+                		else
+                    			CORRECT=0
+                		fi
 				;;
 			2)
 				echo "2) Subtraction"
@@ -137,7 +182,7 @@ takeQuiz(){
                 		then
                     			CORRECT=1
                 		else
-                    			CORRECT=2
+                    			CORRECT=0
                 		fi
 				;;
 			3)
@@ -167,7 +212,7 @@ takeQuiz(){
                 		then
                     			CORRECT=1
                 		else
-                    			CORRECT=2
+                    			CORRECT=0
                 		fi
 				;;
 			*)
