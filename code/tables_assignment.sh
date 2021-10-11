@@ -140,6 +140,12 @@ takeQuiz(){
 				CORRECT_ANS=$(($NUMBER+$R2))
 				OPERAND1=$NUMBER
 				OPERAND2=$R2
+				if [ $USER_ANS -eq $CORRECT_ANS ]
+                		then
+                    			CORRECT=1
+                		else
+                    			CORRECT=0
+                		fi
 				;;
 			2)
 				echo "2) Subtraction"
@@ -153,7 +159,7 @@ takeQuiz(){
                 		then
                     			CORRECT=1
                 		else
-                    			CORRECT=2
+                    			CORRECT=0
                 		fi
 				;;
 			3)
@@ -183,7 +189,7 @@ takeQuiz(){
                 		then
                     			CORRECT=1
                 		else
-                    			CORRECT=2
+                    			CORRECT=0
                 		fi
 				;;
 			*)
