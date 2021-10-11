@@ -22,25 +22,48 @@ do
 done
 
 login(){
-    read -p "enter Username " UNAME
-    read -p "Enter Password " PWORD
-    while read LINE
+until [ ${#USERDETAILS[@]} -ne 0 ]
     do
-        USERLINE="$LINE"
-    done < <(grep $UNAME login.txt | grep $PWORD) #process subsitution for logging in, trying to find a matching username and password
+        until [[ $UNAME =~ ^[A-Za-z]+$ ]]
+        do
+            read -p "Enter Username: " UNAME
+            if [[ $UNAME =~ ^[A-Za-z]+$ ]]
+            then
+                echo "$UNAME"
+            else
+                echo "name has illegal characters"
+            fi
+        done
 
-    USERDETAILS=($USERLINE) #explode USERLINE details into USERDETAILS array
-    if [ ${#USERDETAILS[@]} -eq 0 ]
-    then
-        echo "Error: Username or Password not recognised"
-    else
-        FNAME=${USERDETAILS[0]}
-        USER=${USERDETAILS[1]}
-        PASS=${USERDETAILS[2]}
-        LEVEL=${USERDETAILS[3]}
-        AGE_GROUP=${USERDETAILS[4]}
-        #echo "($USERDETAILS[@])"
-    fi
+        until [[ $PWORD =~ ^[0-9]+$ ]]
+        do
+            read -p "Enter Password: " PWORD
+            if [[ $PWORD =~ ^[0-9]+$ ]]
+            then
+                echo "$PWORD"
+            else
+                echo "password has illegal characters"
+            fi
+        done
+
+        while read LINE
+        do
+            USERLINE="$LINE"
+        done < <(grep $UNAME login.txt | grep $PWORD) #process subsitution for logging in, trying to find a matching username and password
+
+        USERDETAILS=($USERLINE) #explode USERLINE details into USERDETAILS array
+        if [ ${#USERDETAILS[@]} -eq 0 ]
+        then
+            echo "Error: Username or Password not recognised"
+        else
+            FNAME=${USERDETAILS[0]}
+            USER=${USERDETAILS[1]}
+            PASS=${USERDETAILS[2]}
+            LEVEL=${USERDETAILS[3]}
+            AGE_GROUP=${USERDETAILS[4]}
+            #echo ${USERDETAILS[@]}
+        fi
+    done
 }
 
 makeChoice(){
